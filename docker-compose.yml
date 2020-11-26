@@ -1,0 +1,25 @@
+version: "3.7"
+
+services:
+  tdexd:
+    container_name: "tdexd"
+    image: ghcr.io/tdex-network/tdexd:latest
+    restart: unless-stopped
+    environment:
+      - TDEX_SSL_CERT=./cert.pem
+      - TDEX_SSL_KEY=./key.pem
+    ports:
+      - "9945:9945"
+      - "9000:9000"
+    volumes:
+      - $PWD/tdexd:/.tdex-daemon
+      - ${SSL_CERT_PATH}:/cert.pem
+      - ${SSL_KEY_PATH}:/key.pem
+  feederd:
+    container_name: "feederd"
+    image: ghcr.io/tdex-network/feederd:latest
+    restart: unless-stopped
+    volumes:
+      - ${CONFIG_PATH}:/data/config.json
+    depends_on: 
+      - tdexd
