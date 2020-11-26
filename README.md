@@ -17,6 +17,12 @@ $ git clone https://github.com/TDex-network/tdex-box/
 $ export CONFIG_PATH=./config.json
 ```
 
+4. Export ENV for the path of the SSL Certificate and Key to be used.
+
+```
+$ export SSL_CERT_PATH=./cert.pem
+$ export SSL_KEY_PATH=./key.pem
+```
 
 ### Run
 
