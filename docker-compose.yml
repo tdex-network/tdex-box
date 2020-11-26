@@ -13,13 +13,13 @@ services:
       - "9000:9000"
     volumes:
       - $PWD/tdexd:/.tdex-daemon
-      - /path/to/fullchain.pem:/cert.pem
-      - /path/to/privkey.pem:/key.pem
+      - ${SSL_CERT_PATH}:/cert.pem
+      - ${SSL_KEY_PATH}:/key.pem
   feederd:
     container_name: "feederd"
     image: ghcr.io/tdex-network/feederd:latest
     restart: unless-stopped
     volumes:
-      - $PWD/config.json:/data/config.json
+      - ${CONFIG_PATH}:/data/config.json
     depends_on: 
       - tdexd
