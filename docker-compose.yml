@@ -19,8 +19,6 @@ services:
       - -txindex=1
       - -rpcuser=${LIQUID_RPC_USER}
       - -rpcpassword=${LIQUID_RPC_PASSWORD}
-      - -rpcport=7041
-      - -initialfreecoins=200000
   # Blockstream Electrs explorer
   electrs:
     depends_on:
