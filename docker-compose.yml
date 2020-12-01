@@ -12,7 +12,6 @@ services:
     volumes:
       - ${LIQUID_PATH}:/.elements
     command:
-      - -regtest
       - -datadir=/.elements
       - -validatepegin=0
       - -server=1
@@ -37,9 +36,9 @@ services:
     command:
       - -vvvv
       - --parent-network
-      - regtest
+      - liquid
       - --network
-      - regtest
+      - liquid
       - --daemon-dir
       - /.elements
       - --daemon-rpc-addr
@@ -60,7 +59,6 @@ services:
     image: ghcr.io/tdex-network/tdexd:latest
     restart: unless-stopped
     environment:
-      - TDEX_NETWORK=regtest
       - TDEX_EXPLORER_ENDPOINT=http://electrs:3000
       - TDEX_SSL_CERT=./cert.pem
       - TDEX_SSL_KEY=./key.pem
