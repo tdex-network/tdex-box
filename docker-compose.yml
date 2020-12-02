@@ -15,6 +15,17 @@ services:
       - ${TDEX_PATH}:/.tdex-daemon
       - ${SSL_CERT_PATH}:/cert.pem
       - ${SSL_KEY_PATH}:/key.pem
+  tdexd-init:
+    container_name: "tdexd-initializer"
+    environment: 
+      - WALLET_PASSWORD
+    image: ghcr.io/tdex-network/tdexd:latest
+    restart: unless-stopped
+    links: 
+      - tdexd
+    command: bash -c "tdex config init && tdex config set rpcserver tdexd:9000 && tdex unlock --password ${WALLET_PASSWORD}"
+    depends_on:
+     - tdexd
   feederd:
     container_name: "feederd"
     image: ghcr.io/tdex-network/feederd:latest
