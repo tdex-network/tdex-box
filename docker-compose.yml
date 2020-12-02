@@ -21,8 +21,6 @@ services:
       - WALLET_PASSWORD
     image: ghcr.io/tdex-network/tdexd:latest
     restart: unless-stopped
-    links: 
-      - tdexd
     command: bash -c "tdex config init && tdex config set rpcserver tdexd:9000 && tdex unlock --password ${WALLET_PASSWORD}"
     depends_on:
      - tdexd
