@@ -27,11 +27,19 @@ services:
       - TDEX_LOG_LEVEL=5 # 5 for Debug. 4 for production
       - TDEX_CRAWL_INTERVAL=5000 # 5 seconds to poll blockchain
       - TDEX_ELEMENTS_RPC_ENDPOINT=http://${ELEMENTS_RPC_USER}:${ELEMENTS_RPC_PASS}@elementsd:8332
+      #### TLS only ####
+      # Uncomment also the volumes down that mount to this paths
+      #- TDEX_SSL_CERT=./cert.pem
+      #- TDEX_SSL_KEY=./key.pem
     ports:
       - "9945:9945"
       - "9000:9000"
     volumes:
       - ./tdexd:/.tdex-daemon
+      #### TLS only ####
+      #- ${SSL_CERT_PATH}:/cert.pem
+      #- ${SSL_KEY_PATH}:/key.pem
+
   # Pull prices from kraken and push to the daemon
   feederd:
     container_name: "feederd"
