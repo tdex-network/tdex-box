@@ -1,5 +1,6 @@
 ## tdex databases
-/tdexd/**
+/tdexd/db
+/tdexd/stats
 ## elements blockhain dir
 /elementsd/liquidv1
 /elementsd/elementsregtest
