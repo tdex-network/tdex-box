@@ -5,41 +5,58 @@ Docker Compose for running TDex Daemon with TLS along with the TDex Feeder.
 
 1. Clone this repository and enter in the folder
 
-```
+```sh
 $ git clone https://github.com/TDex-network/tdex-box
 $ cd tdex-box
 ```
 
-2. Edit [config.json](https://github.com/TDex-network/tdex-feeder#config-file) file.
+2. Edit [feederd/config.json](https://github.com/TDex-network/tdex-feeder#config-file) file if you wish. By default it defines a market with LBTC-USDt and uses Kraken as price feed.
 
-3. Export ENV variable for the path of the config to be used.
+3. Export ENV variable for the Elements RPC user and password
 
-```
-$ export CONFIG_PATH=`pwd`/config.json
-```
-
-4. Export ENV for the path of the SSL Certificate and Key to be used.
-
-```
-$ export SSL_CERT_PATH=/path/to/cert.pem
-$ export SSL_KEY_PATH=/path/to/key.pem
+```sh
+$ export ELEMENTS_RPC_USER=xxx
+$ export ELEMENTS_RPC_PASS=yyy
 ```
 
-5. Export the ENV variable for the TDex Daemon datadir
+**OPTIONAL** TLS termination
+
+
+Uncomment the in the `docker-compose.yml` file the TLS related stuff and export ENV with the asbolute path to the SSL Certificate and Key to be used.
+
+```sh
+$ export SSL_CERT_PATH=/path/to/fullchain.pem
+$ export SSL_KEY_PATH=/path/to/privatekey.pem
+```
+
+
+### Run 
+
+
+**First time**
+
+Run the elements node alone first and wait for intitial block download to complete, It can up to a whole day to finish
+
+```sh
+$ docker-compose up -d elementsd
+```
+
+You can check the progress with the `elements-cli`
 
 ```
-$ export TDEX_PATH=`pwd`/tdexd
+$ docker exec elementsd elements-cli -rpcuser=xxx -rpcpassword=yyy getblockchaininfo
 ```
 
-### Run
+After initial block download is completed
 
 ```
-$ docker-compose up -d
+$ docker-compose up -d tdexd feederd
 ```
 
 ### Check the Logs
 
 ```
-$ docker logs tdexd
-$ docker logs feederd
+$ docker logs elementsd --tail 20
+$ docker logs tdexd --tail 20
+$ docker logs feederd --tail 20
 ```
