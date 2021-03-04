@@ -31,4 +31,4 @@ services:
     depends_on:
       - tdexd
     volumes:
-      - ./feederd:/data
+      - ./feederd/config.json:/config.json
