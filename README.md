@@ -1,8 +1,8 @@
 # tdex-box
 Docker Compose for running TDex Daemon with TLS along with the TDex Feeder. 
 
-## Usage 
-
+ 
+## Configure
 
 1. Clone this repository and enter in the folder
 
@@ -36,7 +36,7 @@ $ export EXPLORER=zzz
 
 #### TLS
 
-Uncomment the in the `docker-compose.yml` file the TLS related stuff and export ENV with the asbolute path to the SSL Certificate and Key to be used.
+Uncomment the in the compose file (either `docker-compose-elements.yml` or `docker-compose-esplora.yml`) the TLS related stuff and export ENV with the asbolute path to the SSL Certificate and Key to be used.
 
 ```sh
 $ export SSL_CERT_PATH=/path/to/fullchain.pem
@@ -45,7 +45,7 @@ $ export SSL_KEY_PATH=/path/to/privatekey.pem
 
 #### Onion
 
-Add this compose service at the bottom of the compose (either `docker-compose-elements.yml` or `docker-compose-esplora.yml`)
+Add this compose service at the bottom of the compose file (either `docker-compose-elements.yml` or `docker-compose-esplora.yml`)
 
 ```yml
   # Tor Onion Hidden service
@@ -65,14 +65,13 @@ Add this compose service at the bottom of the compose (either `docker-compose-el
       - ./tor:/var/lib/tor/hidden_service/
 ```
 
-
+Export you Onion service V3 private key or leave it blank to create a new one
 
 ```sh
-# if not given a new one will be created 
 $ export ONION_KEY=base64_Onion_V3_Private_Key
 ```
 
-### Run 
+## Run 
 
 
 #### With Elements
