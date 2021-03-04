@@ -17,7 +17,7 @@ $ cd tdex-box
 
 3. Export ENV variable for the either Esplora or Elements with rpc user:password
 
-### With Elements
+#### With Elements
 
 
 ```sh
@@ -25,7 +25,7 @@ $ export ELEMENTS_RPC_USER=xxx
 $ export ELEMENTS_RPC_PASS=yyy
 ```
 
-### With Esplora
+#### With Esplora
 
 ```sh
 # if left blank will default https://blockstream.info/liquid/api 
@@ -34,7 +34,7 @@ $ export EXPLORER=zzz
 
 4. **OPTIONAL** TLS or Onion
 
-### TLS
+#### TLS
 
 Uncomment the in the `docker-compose.yml` file the TLS related stuff and export ENV with the asbolute path to the SSL Certificate and Key to be used.
 
@@ -43,7 +43,7 @@ $ export SSL_CERT_PATH=/path/to/fullchain.pem
 $ export SSL_KEY_PATH=/path/to/privatekey.pem
 ```
 
-### Onion
+#### Onion
 
 Add this compose service at the bottom of the compose (either `docker-compose-elements.yml` or `docker-compose-esplora.yml`)
 
@@ -75,7 +75,7 @@ $ export ONION_KEY=base64_Onion_V3_Private_Key
 ### Run 
 
 
-### With Elements
+#### With Elements
 
 Run the elements node alone first and wait for intitial block download to complete, It can up to a whole day to finish
 
@@ -105,7 +105,7 @@ $ docker logs feederd --tail 20
 ```
 
 
-### With Esplora 
+#### With Esplora 
 
 ```sh
 $ docker-compose -f docker-compose-esplora.yml up -d
