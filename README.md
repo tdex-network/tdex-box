@@ -91,7 +91,7 @@ $ docker exec elementsd elements-cli -rpcuser=xxx -rpcpassword=yyy getblockchain
 After initial block download is completed
 
 ```
-$ docker-compose up -d tdexd feederd
+$ docker-compose -f docker-compose-elements.yml up -d tdexd feederd
 ```
 
 
