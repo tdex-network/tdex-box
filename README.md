@@ -1,5 +1,5 @@
 # tdex-box
-Docker Compose for running TDex Daemon with TLS along with the TDex Feeder. 
+Docker Compose for running TDex Daemon in production environments
 
  
 ## Configure
