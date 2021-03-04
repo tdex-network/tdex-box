@@ -1,0 +1,26 @@
+version: "3.7"
+
+services:
+  tdexd:
+    container_name: "tdexd"
+    image: ghcr.io/tdex-network/tdexd:latest
+    restart: unless-stopped
+    ports:
+      - "9945:9945"
+      - "9000:9000"
+    volumes:
+      - ./tdexd:/.tdex-daemon
+  tor:
+    container_name: "tor"
+    image: goldy/tor-hidden-service:latest
+    restart: unless-stopped
+    depends_on:
+      - tdexd
+    environment:
+      # Set version 3 on TDEX
+      TDEX_TOR_SERVICE_HOSTS: "80:tdexd:9945"
+      TDEX_TOR_SERVICE_VERSION: "3"
+      TDEX_TOR_SERVICE_KEY: ${ONION_KEY}
+    # Keep keys in volumes
+    volumes:
+      - ./tor:/var/lib/tor/hidden_service/
