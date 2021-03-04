@@ -24,7 +24,7 @@ services:
     depends_on:
       - elementsd
     environment:
-      - TDEX_LOG_LEVEL=5 # 5 for Debug. 4 for production
+      - TDEX_LOG_LEVEL=4 # 5 for Debug. 4 for production
       - TDEX_CRAWL_INTERVAL=5000 # 5 seconds to poll blockchain
       - TDEX_ELEMENTS_RPC_ENDPOINT=http://${ELEMENTS_RPC_USER}:${ELEMENTS_RPC_PASS}@elementsd:8332
       #### TLS only ####

@@ -6,10 +6,8 @@ services:
     container_name: "tdexd"
     image: ghcr.io/tdex-network/tdexd:latest
     restart: unless-stopped
-    depends_on:
-      - elementsd
     environment:
-      - TDEX_LOG_LEVEL=5 # 5 for Debug. 4 for production
+      - TDEX_LOG_LEVEL=4 # 5 for Debug. 4 for production
       - TDEX_CRAWL_INTERVAL=5000 # 5 seconds to poll blockchain
       - TDEX_EXPLORER_ENDPOINT=${EXPLORER} # 5 seconds to poll blockchain
       #### TLS only ####
