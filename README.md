@@ -1,45 +1,120 @@
 # tdex-box
 Docker Compose for running TDex Daemon with TLS along with the TDex Feeder. 
 
-## Usage
+ 
+## Configure
 
 1. Clone this repository and enter in the folder
 
-```
+```sh
 $ git clone https://github.com/TDex-network/tdex-box
 $ cd tdex-box
 ```
 
-2. Edit [config.json](https://github.com/TDex-network/tdex-feeder#config-file) file.
+2. Edit [feederd/config.json](https://github.com/TDex-network/tdex-feeder#config-file) file if you wish. By default it defines a market with LBTC-USDt and uses Kraken as price feed.
 
-3. Export ENV variable for the path of the config to be used.
 
-```
-$ export CONFIG_PATH=`pwd`/config.json
-```
 
-4. Export ENV for the path of the SSL Certificate and Key to be used.
+3. Export ENV variable for the either Esplora or Elements with rpc user:password
 
-```
-$ export SSL_CERT_PATH=/path/to/cert.pem
-$ export SSL_KEY_PATH=/path/to/key.pem
-```
+#### With Elements
 
-5. Export the ENV variable for the TDex Daemon datadir
 
-```
-$ export TDEX_PATH=`pwd`/tdexd
+```sh
+$ export ELEMENTS_RPC_USER=xxx
+$ export ELEMENTS_RPC_PASS=yyy
 ```
 
-### Run
+#### With Esplora
+
+```sh
+# if left blank will default https://blockstream.info/liquid/api 
+$ export EXPLORER=zzz
+```
+
+4. **OPTIONAL** TLS or Onion
+
+#### TLS
+
+Uncomment the in the compose file (either `docker-compose-elements.yml` or `docker-compose-esplora.yml`) the TLS related stuff and export ENV with the asbolute path to the SSL Certificate and Key to be used.
+
+```sh
+$ export SSL_CERT_PATH=/path/to/fullchain.pem
+$ export SSL_KEY_PATH=/path/to/privatekey.pem
+```
+
+#### Onion
+
+Add this compose service at the bottom of the compose file (either `docker-compose-elements.yml` or `docker-compose-esplora.yml`)
+
+```yml
+  # Tor Onion Hidden service
+  tor:
+    container_name: "tor"
+    image: goldy/tor-hidden-service:latest
+    restart: unless-stopped
+    depends_on:
+      - tdexd
+    environment:
+      # Set version 3 on TDEX
+      TDEX_TOR_SERVICE_HOSTS: "80:tdexd:9945"
+      TDEX_TOR_SERVICE_VERSION: "3"
+      TDEX_TOR_SERVICE_KEY: ${ONION_KEY}
+    # Keep keys in volumes
+    volumes:
+      - ./tor:/var/lib/tor/hidden_service/
+```
+
+Export you Onion service V3 private key or leave it blank to create a new one
+
+```sh
+$ export ONION_KEY=base64_Onion_V3_Private_Key
+```
+
+## Run 
+
+
+#### With Elements
+
+Run the elements node alone first and wait for intitial block download to complete, It can up to a whole day to finish
+
+```sh
+$ docker-compose -f docker-compose-elements.yml up -d elementsd
+```
+
+You can check the progress with the `elements-cli`
 
 ```
-$ docker-compose up -d
+$ docker exec elementsd elements-cli -rpcuser=xxx -rpcpassword=yyy getblockchaininfo
 ```
 
-### Check the Logs
+After initial block download is completed
 
 ```
-$ docker logs tdexd
-$ docker logs feederd
+$ docker-compose up -d tdexd feederd
 ```
+
+
+Check the Logs
+
+```
+$ docker logs elementsd --tail 20
+$ docker logs tdexd --tail 20
+$ docker logs feederd --tail 20
+```
+
+
+#### With Esplora 
+
+```sh
+$ docker-compose -f docker-compose-esplora.yml up -d
+```
+
+Check the Logs
+
+```
+$ docker logs tdexd --tail 20
+$ docker logs feederd --tail 20
+```
+
+

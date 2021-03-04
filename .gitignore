@@ -1,4 +1,8 @@
 ## tdex databases
 /tdexd/
-/tdexd/
+# tor folder
 /tor/
+## elements blockhain dir
+/elementsd/liquidv1
+/elementsd/elementsregtest
+/elementsd/liquidregtest

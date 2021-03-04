@@ -1,0 +1,34 @@
+version: "3.7"
+
+services:
+  # TDEX daemon connected to Blockstream.info explorer
+  tdexd:
+    container_name: "tdexd"
+    image: ghcr.io/tdex-network/tdexd:latest
+    restart: unless-stopped
+    environment:
+      - TDEX_LOG_LEVEL=4 # 5 for Debug. 4 for production
+      - TDEX_CRAWL_INTERVAL=5000 # 5 seconds to poll blockchain
+      - TDEX_EXPLORER_ENDPOINT=${EXPLORER} # 5 seconds to poll blockchain
+      #### TLS only ####
+      # Uncomment also the volumes down that mount to this paths
+      #- TDEX_SSL_CERT=./cert.pem
+      #- TDEX_SSL_KEY=./key.pem
+    ports:
+      - "9945:9945"
+      - "9000:9000"
+    volumes:
+      - ./tdexd:/.tdex-daemon
+      #### TLS only ####
+      #- ${SSL_CERT_PATH}:/cert.pem
+      #- ${SSL_KEY_PATH}:/key.pem
+
+  # Pull prices from kraken and push to the daemon
+  feederd:
+    container_name: "feederd"
+    image: ghcr.io/tdex-network/feederd:latest
+    restart: unless-stopped
+    depends_on:
+      - tdexd
+    volumes:
+      - ./feederd:/data
