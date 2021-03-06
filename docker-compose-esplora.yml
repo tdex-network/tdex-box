@@ -9,6 +9,8 @@ services:
     environment:
       - TDEX_LOG_LEVEL=4 # 5 for Debug. 4 for production
       - TDEX_CRAWL_INTERVAL=5000 # 5 seconds to poll blockchain
+      - TDEX_CRAWL_LIMIT=100
+      - TDEX_CRAWL_TOKEN=10
       - TDEX_EXPLORER_ENDPOINT=${EXPLORER} # 5 seconds to poll blockchain
       #### TLS only ####
       # Uncomment also the volumes down that mount to this paths
