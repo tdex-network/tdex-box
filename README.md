@@ -130,13 +130,7 @@ $ docker logs feederd --tail 20
 ```
 
 
-**Onion-only** Run the Onion service container
-
-```sh
-$ docker-compose -f docker-compose-elements.yml up -d tor
-```
-
-Check the onion endpoint
+**Onion-only** Check the onion endpoint
 
 ```sh
 $ docker exec tor onions
