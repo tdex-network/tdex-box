@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# NOTE: this scripts requires the docker and docker-compose binaries to be
+# localed into the default path (`/usr/local/bin` in case of a Unix based OS
+# for example) and the tdex-box folder to be located into $HOME.
+
+set -e
+
+tdex_image="ghcr.io/tdex-network/tdexd:latest"
+docker_compose_restart_tdexd="docker-compose -f tdex-box/docker-compose-esplora.yml up -d --no-deps --force-recreate tdexd"
+tdex_config_init="docker exec tdexd tdex config init"
+
+read -p $'Enter a list of space separated remote hosts on which updating the TDEX docker image (leave it blank to abort): \n> ' list
+
+remote_hosts=$(echo $list | tr " " "\n")
+
+for remote_host in $remote_hosts
+do
+  echo $'\n'"updating host: $remote_host"$'\n'
+  ssh $remote_host "docker pull $tdex_image; $docker_compose_restart_tdexd; $tdex_config_init"
+done
+
+if [ -n "$remote_hosts" ]
+then
+  echo $'\nDone. Now you have to manually unlock the wallet of each daemon once the utxo restore has completed.\n'
+  echo "You can run the following command from your terminal to check the status of the daemon by looking at its log:"
+  echo $'\n\t$ ssh <remote_host> "docker logs tdexd"\n'
+  echo "Once the daemon is ready, run the command below to unlock the daemon's wallet:"
+  echo $'\n\t$ ssh <remote_host> "tdex unlock --password <password>"\n'
+else
+  echo "Abort"
+fi
