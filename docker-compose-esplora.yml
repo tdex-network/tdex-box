@@ -34,3 +34,17 @@ services:
       - tdexd
     volumes:
       - ./feederd/config.json:/config.json
+  
+  # Submit an order to bitfinex whenever a trade is settled by the daemon
+  relayerd:
+    container_name: "relayerd"
+    image: ghcr.io/tdex-network/relayerd:latest
+    restart: unless-stopped
+    environment:
+      - RELAYER_SECRET=${SECRET}
+      - RELAYER_API_KEY=${API_KEY}
+      - RELAYER_API_SECRET=${API_SECRET}
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./relayerd/config.json:/config.json
