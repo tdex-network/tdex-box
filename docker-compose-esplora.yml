@@ -12,18 +12,24 @@ services:
       - TDEX_CRAWL_LIMIT=500
       - TDEX_CRAWL_TOKEN=50
       - TDEX_EXPLORER_ENDPOINT=${EXPLORER} # 5 seconds to poll blockchain
-      #### TLS only ####
+      #### Macaroons auth/TLS termination - Operator interface ####
+      # Uncomment to disable macaroons auth
+      #- TDEX_NO_MACAROONS=true
+      # Uncomment one or both if running on a remote host with auth enabled
+      #- TDEX_OPERATOR_EXTRA_IP=0.0.0.0
+      #- TDEX_OPERATOR_EXTRA_DOMAIN=your.dns.domain
+      #### TLS only - Trade interface ####
       # Uncomment also the volumes down that mount to this paths
-      #- TDEX_SSL_CERT=./cert.pem
-      #- TDEX_SSL_KEY=./key.pem
+      #- TDEX_SSL_CERT=./trade.crt
+      #- TDEX_SSL_KEY=./trade.key
     ports:
       - "9945:9945"
       - "9000:9000"
     volumes:
       - ./tdexd:/.tdex-daemon
       #### TLS only ####
-      #- ${SSL_CERT_PATH}:/cert.pem
-      #- ${SSL_KEY_PATH}:/key.pem
+      #- ${SSL_CERT_PATH}:/trade.crt
+      #- ${SSL_KEY_PATH}:/trade.key
 
   # Pull prices from kraken and push to the daemon
   feederd:
