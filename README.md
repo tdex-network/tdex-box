@@ -14,18 +14,7 @@ $ cd tdex-box
 2. Edit [feederd/config.json](https://github.com/TDex-network/tdex-feeder#config-file) file if you wish. By default it defines a market with LBTC-USDt and uses Kraken as price feed.
 
 
-
-3. Export ENV variable for the either Esplora or Elements with rpc user:password
-
-#### With Elements
-
-
-```sh
-$ export ELEMENTS_RPC_USER=xxx
-$ export ELEMENTS_RPC_PASS=yyy
-```
-
-#### With Esplora
+3. Export ENV variable for Esplora REST endpoint
 
 ```sh
 # if left blank will default https://blockstream.info/liquid/api 
@@ -36,7 +25,7 @@ $ export EXPLORER=zzz
 
 #### TLS
 
-Uncomment the in the compose file (either `docker-compose-elements.yml` or `docker-compose-esplora.yml`) the TLS related stuff and export ENV with the asbolute path to the SSL Certificate and Key to be used.
+Uncomment the in the compose file (`docker-compose.yml`) the TLS related stuff and export ENV with the asbolute path to the SSL Certificate and Key to be used.
 
 ```sh
 $ export SSL_CERT_PATH=/path/to/fullchain.pem
@@ -45,7 +34,7 @@ $ export SSL_KEY_PATH=/path/to/privatekey.pem
 
 #### Onion
 
-Add this compose service at the bottom of the compose file (either `docker-compose-elements.yml` or `docker-compose-esplora.yml`)
+Add this compose service at the bottom of the compose file (either `docker-compose.yml`)
 
 ```yml
   # Tor Onion Hidden service
@@ -73,53 +62,8 @@ $ export ONION_KEY=base64_Onion_V3_Private_Key
 
 ## Run 
 
-
-#### With Elements
-
-Run the elements node alone first and wait for intitial block download to complete, It can up to a whole day to finish
-
 ```sh
-$ docker-compose -f docker-compose-elements.yml up -d elementsd
-```
-
-You can check the progress with the `elements-cli`
-
-```
-$ docker exec elementsd elements-cli -rpcuser=xxx -rpcpassword=yyy getblockchaininfo
-```
-
-After initial block download is completed
-
-```
-$ docker-compose -f docker-compose-elements.yml up -d tdexd feederd
-```
-
-
-Check the Logs
-
-```
-$ docker logs elementsd --tail 20
-$ docker logs tdexd --tail 20
-$ docker logs feederd --tail 20
-```
-
-**Onion-only** Run the Onion service container
-
-```sh
-$ docker-compose -f docker-compose-elements.yml up -d tor
-```
-
-Check the onion endpoint
-
-```sh
-$ docker exec tor onions
-```
-
-
-#### With Esplora 
-
-```sh
-$ docker-compose -f docker-compose-esplora.yml up -d
+$ docker-compose -f docker-compose.yml up -d
 ```
 
 Check the Logs

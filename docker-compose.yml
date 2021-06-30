@@ -9,22 +9,26 @@ services:
     environment:
       - TDEX_LOG_LEVEL=4 # 5 for Debug. 4 for production
       - TDEX_CRAWL_INTERVAL=5000 # 5 seconds to poll blockchain
-      - TDEX_CRAWL_LIMIT=500
-      - TDEX_CRAWL_TOKEN=50
+      - TDEX_CRAWL_LIMIT=5000
+      - TDEX_CRAWL_TOKEN=500
       - TDEX_EXPLORER_ENDPOINT=${EXPLORER} # 5 seconds to poll blockchain
+      
       #### Macaroons auth/TLS termination - Operator interface ####
       # Uncomment to disable macaroons auth
       #- TDEX_NO_MACAROONS=true
+
       # Uncomment one or both if running on a remote host with auth enabled
       #- TDEX_OPERATOR_EXTRA_IP=0.0.0.0
       #- TDEX_OPERATOR_EXTRA_DOMAIN=your.dns.domain
+      
       #### TLS only - Trade interface ####
       # Uncomment also the volumes down that mount to this paths
       #- TDEX_SSL_CERT=./trade.crt
       #- TDEX_SSL_KEY=./trade.key
-    ports:
+      ports:
       - "9945:9945"
       - "9000:9000"
+      
     volumes:
       - ./tdexd:/.tdex-daemon
       #### TLS only ####
