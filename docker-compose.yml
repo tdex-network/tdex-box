@@ -25,7 +25,7 @@ services:
       # Uncomment also the volumes down that mount to this paths
       #- TDEX_SSL_CERT=./trade.crt
       #- TDEX_SSL_KEY=./trade.key
-      ports:
+    ports:
       - "9945:9945"
       - "9000:9000"
       
