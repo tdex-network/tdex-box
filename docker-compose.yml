@@ -34,6 +34,8 @@ services:
       #### TLS only ####
       #- ${SSL_CERT_PATH}:/trade.crt
       #- ${SSL_KEY_PATH}:/trade.key
+      #### Unlocker ####
+      #- ${PWD_PATH}:/pwd.txt
 
   # Pull prices from kraken and push to the daemon
   feederd:
