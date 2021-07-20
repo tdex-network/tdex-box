@@ -63,7 +63,7 @@ $ export ONION_KEY=base64_Onion_V3_Private_Key
 ## Run 
 
 ```sh
-$ docker-compose -f docker-compose.yml up -d
+$ docker-compose up -d
 ```
 
 Check the Logs
