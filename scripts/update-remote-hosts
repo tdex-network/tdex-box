@@ -7,7 +7,7 @@
 set -e
 
 tdex_image="ghcr.io/tdex-network/tdexd:latest"
-docker_compose_restart_tdexd="docker-compose -f tdex-box/docker-compose-esplora.yml up -d --no-deps --force-recreate tdexd"
+docker_compose_restart_tdexd="docker-compose -f tdex-box/docker-compose.yml up -d --no-deps --force-recreate tdexd"
 tdex_config_init="docker exec tdexd tdex config init"
 
 read -p $'Enter a list of space separated remote hosts on which updating the TDEX docker image (leave it blank to abort): \n> ' list
