@@ -106,7 +106,7 @@ After starting up the daemon, you can execute the unlocker binary:
 ```sh
 $ alias unlockerd="docker exec -it tdexd unlockerd"
 
-$ unlockerd --password_path /pwd.txt --rpcserver 0.0.0.0:9000
+$ unlockerd --password_path /pwd.txt --tls_cert_path /.tdex-daemon/tls/cert.pem
 ```
 
 
