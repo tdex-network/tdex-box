@@ -86,28 +86,32 @@ $ docker exec tor onions
 
 Starting from tdexd v0.5.0 and above, the image comes with a new `unlockerd` embedded binary useful to automatize the unlocking of the daemon's wallet once (re)started and initialized.
 
-The unlocker supports different ways to source the password from a certain _provider_ (file, AWS KMS, Kubernetes, Hashicorp Vault).  
-At the moment, the only available option is providing a file containing the plaintext password to unlock the daemon's wallet.
+In the compose file you can find commented lines for enabling the unlocker with the `file` provider, which means it attempts to source the unlocking password from a local file.
 
-Create the password file (you can name whatever you want), like for example:
+Enabling the unlocker is as easy as creating a file containing the same password used to init your daemon's wallet and exporting its path in the `PWD_PATH` variable, like for example:
 
-```sh
-$ echo "mypassword" > path/to/pwd.txt
+```bash
+$ echo "mypassword" > pwd.txt
+$ export PWD_PATH=$(pwd)/pwd.txt
 ```
 
-Them, uncomment in the compose file the [volume](docker-compose.yml#L35) related to the Unlocker service and export ENV with the path to the newly created file:
+Then, uncomment in the compose file the [command](docker-compose.yml#L34) and the [volume](docker-compose.yml#L42).
 
-```sh
-$ export PWD_PATH=path/to/pwd.txt
+That's it. You just need to start up the container with the usual command:
+
+```bash
+$ docker-compose up -d tdexd
 ```
 
-After starting up the daemon, you can execute the unlocker binary:
+Or you can recreate it with:
 
-```sh
-$ alias unlockerd="docker exec -it tdexd unlockerd"
-
-$ unlockerd --password_path /pwd.txt --rpcserver 0.0.0.0:9000
+```bash
+$ docker-compose up -d --no-deps --force-recreate tdexd
 ```
+
+
+
+
 
 
 
