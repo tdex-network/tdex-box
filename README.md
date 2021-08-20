@@ -25,7 +25,7 @@ $ export EXPLORER=zzz
 
 #### TLS
 
-Uncomment the in the compose file (`docker-compose.yml`) the TLS related stuff and export ENV with the asbolute path to the SSL Certificate and Key to be used.
+Uncomment in the compose file (`docker-compose.yml`) the TLS related stuff and export ENV with the asbolute path to the SSL Certificate and Key to be used.
 
 ```sh
 $ export SSL_CERT_PATH=/path/to/fullchain.pem
@@ -54,7 +54,7 @@ Add this compose service at the bottom of the compose file (either `docker-compo
       - ./tor:/var/lib/tor/hidden_service/
 ```
 
-Export you Onion service V3 private key or leave it blank to create a new one
+Export your Onion service V3 private key or leave it blank to create a new one
 
 ```sh
 $ export ONION_KEY=base64_Onion_V3_Private_Key
@@ -63,7 +63,7 @@ $ export ONION_KEY=base64_Onion_V3_Private_Key
 ## Run 
 
 ```sh
-$ docker-compose -f docker-compose.yml up -d
+$ docker-compose up -d
 ```
 
 Check the Logs
@@ -79,6 +79,39 @@ $ docker logs feederd --tail 20
 ```sh
 $ docker exec tor onions
 ```
+
+## **New** Auto-unlock
+
+#### Unlocker
+
+Starting from tdexd v0.5.0 and above, the image comes with a new `unlockerd` embedded binary useful to automatize the unlocking of the daemon's wallet once (re)started and initialized.
+
+In the compose file you can find commented lines for enabling the unlocker with the `file` provider, which means it attempts to source the unlocking password from a local file.
+
+Enabling the unlocker is as easy as creating a file containing the same password used to init your daemon's wallet and exporting its path in the `PWD_PATH` variable, like for example:
+
+```bash
+$ echo "mypassword" > pwd.txt
+$ export PWD_PATH=$(pwd)/pwd.txt
+```
+
+Then, uncomment in the compose file the [command](docker-compose.yml#L34) and the [volume](docker-compose.yml#L42).
+
+That's it. You just need to start up the container with the usual command:
+
+```bash
+$ docker-compose up -d tdexd
+```
+
+Or you can recreate it with:
+
+```bash
+$ docker-compose up -d --no-deps --force-recreate tdexd
+```
+
+
+
+
 
 
 

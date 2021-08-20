@@ -25,15 +25,21 @@ services:
       # Uncomment also the volumes down that mount to this paths
       #- TDEX_SSL_CERT=./trade.crt
       #- TDEX_SSL_KEY=./trade.key
-      ports:
+    ports:
       - "9945:9945"
       - "9000:9000"
+    #### Unlocker with file ####
+    # Uncomment to override default command and start tdexd and unlockerd.
+    # You need to uncomment also the volume down that mount the path used here.
+    # command: /bin/bash -c "(sleep 1 && unlockerd --password_path=/pwd.txt --interval=10 >& /dev/null &) && /tdexd-linux"
       
     volumes:
-      - ./tdexd:/.tdex-daemon
+      - ./tdexd:/home/user/.tdex-daemon
       #### TLS only ####
       #- ${SSL_CERT_PATH}:/trade.crt
       #- ${SSL_KEY_PATH}:/trade.key
+      #### Unlocker with file ####
+      #- ${PWD_PATH}:/pwd.txt
 
   # Pull prices from kraken and push to the daemon
   feederd:
