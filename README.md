@@ -117,5 +117,5 @@ Please follow the order of the params.
 ```bash
 cd terabox && ./deploy.sh
 ```
-![Deploy](.terabox/img/deploy.png)
+![Deploy](terabox/img/deploy.png)
 
