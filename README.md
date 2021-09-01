@@ -115,7 +115,7 @@ For more information how to run it properly please checkout our blog post [here]
 Please follow the order of the params. 
 
 ```bash
-cd terabox && ./deploy.sh aws_access_key aws_secret_key aws_region aws_ami ssh_public_key_path ssh_key_name IP_ADDR https://explorer.url/ aws_s3_BucketName
+cd terabox && ./deploy.sh
 ```
-
+![Deploy](.terabox/img/deploy.png)
 

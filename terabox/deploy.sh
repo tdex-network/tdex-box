@@ -1,18 +1,21 @@
 #!/bin/bash
-echo -e "To run please prepare:\n  aws_access_key: KS2S2F4F2F2\n  aws_secret_key: M3C9S8D2...\n  aws_region: eu-west-1\n  aws_ami: ami-05f7491af5eef733a\n  ssh_public_key_path: ~/.ssh/id_rsa.pub\n  ssh_key_name: My Default Key\n  IP Addr: 123.123.123.123\n  Explorer URL: tdexd variable\n  S3 bucket name: or replace tdexdb in backup.sh"
 
 echo "Please enter your parameters"
-read -p "AWS Access Key: " AWS_ACCESS_KEY
-read -p "AWS Secret Access Key: " AWS_SECRET_ACCESS_KEY
-read -p "AWS Region: " AWS_REGION
-read -p "AWS AMI ID: " AWS_AMI
-read -p "AWS S3 bucket name: " AWS_S3
-read -p "SSH Pubic key path: " SSH_PUB_KEY
-read -p "SSH Key Name: " SSH_KEY
-read -p "Your IP address: " IP_ADDR
-read -p "Explorer URL: " EXPLORER_URL
-
-cat vrs.cnf > variables.tf
+read -p "AWS Access Key: (eg. KS2S2F4F2F2): " AWS_ACCESS_KEY
+read -p "AWS Secret Access Key: (eg. M3C9S8D2...): " AWS_SECRET_ACCESS_KEY
+read -p "AWS Region: (eg. eu-west-1): " AWS_REGION
+read -p "AWS AMI ID: (eg. ami-05f7491af5eef733a): " AWS_AMI
+read -p "AWS S3 bucket name: (eg. MyBucketName): " AWS_S3
+read -p "SSH Pubic key path: (eg. ~/.ssh/id_rsa.pub): " SSH_PUB_KEY
+read -p "SSH Key Name: (eg. MyDefaultSshKey): " SSH_KEY
+read -p "Your IP address: (eg. 43.34.43.34): " IP_ADDR
+read -p "Explorer URL: (eg. https://blockstream.info/liquid/api): " EXPLORER_URL
+read -p "Do you want to use TOR?: " yn
+case $yn in
+    [Yy]* ) sed -i "s/false/true/g" ./scripts/provisioner.sh; read -p "Base64 Onion Key: (eg. caz6f2svrgcem2gnc5): " ONIONKEY; ;;
+    [Nn]* ) ;;
+    * ) echo "Please answer yes or no.";;
+esac
 sed -i "s/AWSKEY/$AWS_ACCESS_KEY/g" ./scripts/backup.sh
 sed -i "s/AWSSECRET/$AWS_SECRET_ACCESS_KEY/g" ./scripts/backup.sh
 sed -i "s/tdexdb/$AWS_S3/g" ./scripts/backup.sh
@@ -21,6 +24,7 @@ sed -i "s/AMI_ID/$AWS_AMI/g" variables.tf
 sed -i "s/222.222.222.222/$IP_ADDR/g" main.tf
 EXPL="$EXPLORER_URL"
 sed -i "s,EXPLR,$EXPL,g" ./scripts/provisioner.sh
+sed -i "s,base64PK,$ONIONKEY,g" ./scripts/provisioner.sh
 
 planName="terabox_plan"
 /usr/local/bin/terraform init

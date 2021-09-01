@@ -1,0 +1,67 @@
+version: "3.7"
+
+services:
+  # TDEX daemon connected to Blockstream.info explorer
+  tdexd:
+    container_name: "tdexd"
+    image: ghcr.io/tdex-network/tdexd:latest
+    restart: unless-stopped
+    environment:
+      - TDEX_LOG_LEVEL=4 # 5 for Debug. 4 for production
+      - TDEX_CRAWL_INTERVAL=5000 # 5 seconds to poll blockchain
+      - TDEX_CRAWL_LIMIT=5000
+      - TDEX_CRAWL_TOKEN=500
+      - TDEX_EXPLORER_ENDPOINT=${EXPLORER} # 5 seconds to poll blockchain
+      
+      #### Macaroons auth/TLS termination - Operator interface ####
+      # Uncomment to disable macaroons auth
+      #- TDEX_NO_MACAROONS=true
+
+      # Uncomment one or both if running on a remote host with auth enabled
+      #- TDEX_OPERATOR_EXTRA_IP=0.0.0.0
+      #- TDEX_OPERATOR_EXTRA_DOMAIN=your.dns.domain
+      
+      #### TLS only - Trade interface ####
+      # Uncomment also the volumes down that mount to this paths
+      #- TDEX_SSL_CERT=./trade.crt
+      #- TDEX_SSL_KEY=./trade.key
+    ports:
+      - "9945:9945"
+      - "9000:9000"
+    #### Unlocker with file ####
+    # Uncomment to override default command and start tdexd and unlockerd.
+    # You need to uncomment also the volume down that mount the path used here.
+    # command: /bin/bash -c "(sleep 1 && unlockerd --password_path=/pwd.txt --interval=10 >& /dev/null &) && /tdexd-linux"
+      
+    volumes:
+      - ./tdexd:/home/user/.tdex-daemon
+      #### TLS only ####
+      #- ${SSL_CERT_PATH}:/trade.crt
+      #- ${SSL_KEY_PATH}:/trade.key
+      #### Unlocker with file ####
+      #- ${PWD_PATH}:/pwd.txt
+
+  # Pull prices from kraken and push to the daemon
+  feederd:
+    container_name: "feederd"
+    image: ghcr.io/tdex-network/feederd:latest
+    restart: unless-stopped
+    depends_on:
+      - tdexd
+    volumes:
+      - ./feederd/config.json:/config.json
+  # Tor Onion Hidden service
+  tor:
+    container_name: "tor"
+    image: goldy/tor-hidden-service:latest
+    restart: unless-stopped
+    depends_on:
+      - tdexd
+    environment:
+      # Set version 3 on TDEX
+      TDEX_TOR_SERVICE_HOSTS: "80:tdexd:9945"
+      TDEX_TOR_SERVICE_VERSION: "3"
+      TDEX_TOR_SERVICE_KEY: ${ONION_KEY}
+    # Keep keys in volumes
+    volumes:
+      - ./tor:/var/lib/tor/hidden_service/

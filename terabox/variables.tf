@@ -14,7 +14,7 @@ variable "key_name" {
 
 variable "aws_region" {
   description = "AWS region to launch servers."
-  default = "REGION"
+  default = "eu-west-1"
 }
 variable "aws_access_key" {
   description = "AWS access key to launch servers."
@@ -28,7 +28,7 @@ variable "aws_secret_key" {
 # Ubuntu Precise 18.04 LTS (x64)
 variable "aws_amis" {
   default = {
-    REGION = "AMI_ID"
+    eu-west-1 = "ami-0a8e758f5e873d1c1"
   }
 }
 
