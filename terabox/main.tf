@@ -117,7 +117,6 @@ resource "aws_instance" "web" {
   source      = "./scripts/provisioner.sh"
   destination = "/home/ubuntu/provisioner.sh"
   }
-
   provisioner "file" {
   source      = "./scripts/cronscript.sh"
   destination = "/home/ubuntu/cronscript.sh"
@@ -133,19 +132,24 @@ resource "aws_instance" "web" {
     ]
   }
   provisioner "file" {
-  source      = "./docker-compose.yml"
-  destination = "/home/ubuntu/tdex-box/docker-compose.yml"
+  source      = "./docker-compose-tor.yml"
+  destination = "/home/ubuntu/tdex-box/docker-compose-tor.yml"
   }
   provisioner "remote-exec" {
     inline = [
-      "sudo apt install -y apt-transport-https ca-certificates curl software-properties-common awscli curl",
+      "sudo apt install -y apt-transport-https ca-certificates curl software-properties-common awscli curl dnsutils bsdmainutils",
       "curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh && sudo curl -L 'https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64' -o /usr/local/bin/docker-compose",
       "sudo chmod +x /usr/local/bin/docker-compose && sudo usermod -a -G docker ubuntu",
       "chmod +x /home/ubuntu/provisioner.sh",
+      "export IP=$(dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | awk -F'\"' '{ print $2}'); sed -i \"s,tdexd,$IP,g\" /home/ubuntu/tdex-box/feederd/config.json",
+      "export IP=$(dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | awk -F'\"' '{ print $2}'); sed -i \"s,ServerIPAddr,$IP,g\" /home/ubuntu/provisioner.sh",
+      "mkdir /home/ubuntu/tdex-box/tdexd/"
       "sudo /home/ubuntu/provisioner.sh",
       "chmod +x /home/ubuntu/cronscript.sh",
       "sudo bash /home/ubuntu/cronscript.sh",
-      "chmod +x /home/ubuntu/backup.sh"
+      "chmod +x /home/ubuntu/backup.sh",
+      "/usr/bin/hexdump -v -e ' 1/1 \"%02x\"' /home/ubuntu/tdex-box/tdexd/macaroons/admin.macaroon",
+      "/usr/bin/cat /home/ubuntu/tdex-box/tdexd/tls/cert.pem"
     ]
   }
 }

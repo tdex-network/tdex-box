@@ -18,7 +18,7 @@ services:
       #- TDEX_NO_MACAROONS=true
 
       # Uncomment one or both if running on a remote host with auth enabled
-      #- TDEX_OPERATOR_EXTRA_IP=0.0.0.0
+      - TDEX_OPERATOR_EXTRA_IP=${SERVER_IP}
       #- TDEX_OPERATOR_EXTRA_DOMAIN=your.dns.domain
       
       #### TLS only - Trade interface ####
