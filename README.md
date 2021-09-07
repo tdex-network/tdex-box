@@ -56,7 +56,7 @@ Expose the TDEX Trader interface with TLS or Onion to the TDEX Network
 
 ### TLS via Certificate Authority
 
-To enable TLS encryption with a Certificate Authority on the Trader interface of the daemon, you have to generate your obtain a TLS certificate from a Certificate Authority (ie. Let's Encrypt or ZeroSSL). Once this is done, export the ENV variables with the absolute path of the files: 
+To enable TLS encryption with a Certificate Authority on the Trader interface of the daemon, you have to obtain a TLS certificate from a Certificate Authority (ie. Let's Encrypt or ZeroSSL). Once this is done, export the ENV variables with the absolute path of the files: 
 
 ```sh
 $ export SSL_CERT_PATH=/path/to/fullchain.pem
