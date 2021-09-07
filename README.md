@@ -33,7 +33,7 @@ By default, the daemon service is configured to have authentication for the Oper
 
 #### Without Macaroons (insecure)
 
-If you don't need to access the `tdexd` from outside over the public internet, it's enough to [uncomment this line to set TDEX_NO_MACAROONS=true](docker-compose.yml#L18) env var of `tdexd` to disable it. If you do this, you are done and you can skip to the [Run](#run) section. **DO NOT OPEN THE OPERATOR GRPC PORT VIA FIREWALL/SECURITY GROUPS**
+If you don't need to access `tdexd` from outside over the public internet, it's enough to [uncomment this line to set TDEX_NO_MACAROONS=true](docker-compose.yml#L18) env var of `tdexd` to disable it. If you do this, you are done and you can skip to the [Run](#run) section. **DO NOT OPEN THE OPERATOR GRPC PORT VIA FIREWALL/SECURITY GROUPS**
 
 
 
