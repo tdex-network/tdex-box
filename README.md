@@ -63,7 +63,7 @@ $ export SSL_CERT_PATH=/path/to/fullchain.pem
 $ export SSL_KEY_PATH=/path/to/privatekey.pem
 ```
 
-The last step is to uncomment in the compose file (`docker-compose.yml`) the lines of the `volumes` to mount the SSL paths
+The last step is to uncomment in the compose file [the lines](docker-compose#L39) to mount these paths as volumes of `tdexd` in the paths `/trade.crt` and `/trade.key`.
 
 ```yml
    volumes:
