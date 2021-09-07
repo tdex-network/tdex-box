@@ -42,7 +42,7 @@ By default, the daemon service is configured to enable TLS encryption for the Op
 The generation of the TLS key and certificate file for this interface are up to the daemon itself.  
 If you want to run the box on a remote machine with a static IP (and possibly a DNS name), you need to uncomment one or both [TDEX_OPERATOR_EXTRA IP | TDEX_OPERATOR_EXTRA_DOMAIN](docker-compose.yml#L21) env vars to let the daemon create the right certificate that, for example, will allow you to use the Operator CLI remotely. Exceptionally for this case, if you are also going to run the feeder service, you'll need to change the default config file like follows:
 - change the [hostname of the rpc_address](feederd/config.json#L13) (default `tdexd`) and use the static IP or DNS name.
-- uncomment the [volumes](docker-compose.yml#54) in the compose file to mount the macaroon and TLS certificate to the feeder service and change the [macaroons_path](feederd/config.json#L11) and [tls_cert_path](feederd/config.json#L12) to `/price.macaroon` and `/cert.pem` respectively.
+- uncomment the [feederd's volumes](docker-compose.yml#54) section in the compose file to mount the macaroon and TLS certificate to the feeder service and change the [macaroons_path](feederd/config.json#L11) and [tls_cert_path](feederd/config.json#L12) to `/price.macaroon` and `/cert.pem` respectively.
 Last but not least, don't forget to open the port where the Operator interface listens to (default `9000`) and allow in-going and out-going traffic over it on your router.
 
 ### Onion
