@@ -11,8 +11,7 @@ $ git clone https://github.com/TDex-network/tdex-box
 $ cd tdex-box
 ```
 
-2. Edit [feederd/config.json](https://github.com/TDex-network/tdex-feeder#config-file) file if you wish. By default it defines a market with LBTC-USDt and uses Kraken as price feed.
-
+2. Edit [feederd/config.json](https://github.com/TDex-network/tdex-feeder#config-file) file if you wish. By default it defines a market with LBTC-USDt and uses Kraken as price feed.  
 
 3. Export ENV variable for Esplora REST endpoint
 
@@ -23,16 +22,27 @@ $ export EXPLORER=zzz
 
 4. **OPTIONAL** TLS or Onion
 
-#### TLS
+### TLS
 
-Uncomment in the compose file (`docker-compose.yml`) the TLS related stuff and export ENV with the asbolute path to the SSL Certificate and Key to be used.
+#### Trade interface
+
+To enable TLS encryption on the Trade interface of the daemon, you have to generate your own TLS key and certificate files. Once this is done, export the ENV variables with the absolute path of the files: 
 
 ```sh
-$ export SSL_CERT_PATH=/path/to/fullchain.pem
-$ export SSL_KEY_PATH=/path/to/privatekey.pem
+$ export SSL_CERT_PATH=/path/to/certificate.crt
+$ export SSL_KEY_PATH=/path/to/privatekey.key
 ```
 
-#### Onion
+The last step is to uncomment in the compose file (`docker-compose.yml`) the lines related to TLS for Trade interface.
+
+#### Operator interface
+
+By default, the daemon service is configured to enable TLS encryption for the Operator interface. It's enough to uncomment [this line](docker-compose.yml#L18) to disable it.
+
+The generation of the TLS key and certificate file for this interface are up to the daemon itself.  
+If you want to run the box on a remote machine with a static IP (and possibly a DNS name), you need to uncomment one or both [these lines](docker-compose.yml#L21) to let the daemon create the right certificate that, for example, will allow you to use the Operator CLI remotely. Exceptionally for this case, if you are also going to run the feeder service, you'll need to change the [default address in its config file](feederd/config.json#L12) (default `tdexd`) and use the static IP or DNS name. Last but not least, don't forget to open the port where the Operator interface listens to (default `9000`) and allow in-going and out-going traffic over it on your router.
+
+### Onion
 
 Add this compose service at the bottom of the compose file (either `docker-compose.yml`)
 
