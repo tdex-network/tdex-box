@@ -50,3 +50,6 @@ services:
       - tdexd
     volumes:
       - ./feederd/config.json:/config.json
+      # Uncomment to mount TLS cert and mac files sourced from daemon datadir on this service.
+      # - ./tdexd/macaroons/price.macaroon:/price.macaroon
+      # - ./tdexd/tls/cert.pem:/cert.pem
