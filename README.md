@@ -46,7 +46,7 @@ If you want to run the daemon on a remote machine with a static IP (and possibly
 To let `feederd` to connect to `tdexd` to update prices, you'll need to change the default `feederd/config.json` file like follows:
 
 - change the [hostname of the rpc_address](feederd/config.json#L13) and use the static IP or DNS name you passed to `TDEX_OPERATOR_EXTRA IP` or  `TDEX_OPERATOR_EXTRA_DOMAIN` eg. `my.domain.com:9000`
-- uncomment the [feederd's volumes](docker-compose.yml#54) section in the compose file to mount the macaroon and TLS certificate intto `feederd` service
+- uncomment the [feederd's volumes](docker-compose.yml#54) section in the compose file to mount the macaroon and TLS certificate into `feederd` service
 - change the [macaroons_path](feederd/config.json#L11) and [tls_cert_path](feederd/config.json#L12) in the `feederd/config.json` respectively to `/price.macaroon` and `/cert.pem`.
 - Last but not least, don't forget to open the port where the Operator interface listens to (default `9000`) and allow in-going and out-going traffic over it on your firewalle or security groups.
 
