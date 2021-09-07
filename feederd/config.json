@@ -9,8 +9,8 @@
       "targets": [
         {
           "macaroons_path": "",
-          "rpc_address": "tdexd:9000",
-          "tls_cert_path": ""
+          "tls_cert_path": "",
+          "rpc_address": "tdexd:9000"
         }
       ]
     }
