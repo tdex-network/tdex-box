@@ -20,12 +20,13 @@ x86_64) ARCH="amd64" ;;
   ;;
 esac
 
+#Get latest version
 VERSION=$(curl --silent "https://api.github.com/repos/tdex-network/tdex-daemon/releases/latest" | grep -Po '"tag_name": "\K.*?(?=")')
 
 TCLI=tdex-$VERSION-$OS-$ARCH 
-FULLURL="https://github.com/tdex-network/tdex-daemon/releases/download/$VERSION/$TCLI"
+URL="https://github.com/tdex-network/tdex-daemon/releases/download/$VERSION/$TCLI"
 echo Downloading: $TCLI
-wget $FULLURL || curl -LJO $FULLURL
+wget $URL || curl -LJO $URL
 
 chmod +x $TCLI 
 sudo ln -s $PWD/$TCLI /usr/bin/tdex
