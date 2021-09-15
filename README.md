@@ -148,10 +148,12 @@ Or you can recreate it with:
 ```bash
 $ docker-compose up -d --no-deps --force-recreate tdexd
 ```
+#### Automatic Deployment to **AWS**
+As part of automatic deployment we utilize terraform to deploy our services to the AWS EC2, with S3 backup. It is required from you to provide AWS keys, s3 bucket, region, ami id, SSH keys, Explorer URL, and your access IP.
 
-
-
-
-
-
+For more information how to run it properly please checkout our blog post [here](https://dev.tdex.network/blog/tdex-terraform-deploy)
+```bash
+cd terabox && ./deploy.sh
+```
+![Deploy](terabox/img/deploy.png)
 
