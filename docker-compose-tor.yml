@@ -62,6 +62,17 @@ services:
       TDEX_TOR_SERVICE_HOSTS: "80:tdexd:9945"
       TDEX_TOR_SERVICE_VERSION: "3"
       TDEX_TOR_SERVICE_KEY: ${ONION_KEY}
+      TOR_EXTRA_OPTIONS: |
+      ### Try for at most NUM seconds when building circuits. If the circuit isn't
+        # open in that time, give up on it. (Default: 1 minute.)
+        CircuitBuildTimeout 5
+        # Send a padding cell every N seconds to keep firewalls from closing our
+        # connections while Tor is not in use.
+        KeepalivePeriod 60
+        # Force Tor to consider whether to build a new circuit every NUM seconds.
+        NewCircuitPeriod 15
+        # How many entry guards should we keep at a time?
+        NumEntryGuards 8
     # Keep keys in volumes
     volumes:
       - ./tor:/var/lib/tor/hidden_service/
