@@ -120,22 +120,20 @@ $ docker logs feederd --tail 20
 $ docker exec tor onions
 ```
 
-## Auto-unlock
+## Unlock Wallet on start-up
 
-#### Unlocker
+Daemon's wallet can be unlocked, once (re)started and initialized, by providing file path, that contains password, to the daemon through environment variable. 
 
-Starting from tdexd v0.5.0 and above, the image comes with a new `unlockerd` embedded binary useful to automatize the unlocking of the daemon's wallet once (re)started and initialized.
+In the compose file you can find commented lines for enabling unlocking of wallet on start-up.
 
-In the compose file you can find commented lines for enabling the unlocker with the `file` provider, which means it attempts to source the unlocking password from a local file.
-
-Enabling the unlocker is as easy as creating a file containing the same password used to init your daemon's wallet and exporting its path in the `PWD_PATH` variable, like for example:
+Unlocking on start-up is as easy as creating a file containing the same password used to init your daemon's wallet and exporting its path in the `PWD_PATH` variable, like for example:
 
 ```bash
 $ echo "mypassword" > pwd.txt
 $ export PWD_PATH=$(pwd)/pwd.txt
 ```
 
-Then, uncomment in the compose file the [command](docker-compose.yml#L34) and the [volume](docker-compose.yml#L42).
+Then, uncomment in the compose file the [command](docker-compose.yml#L29) and the [volume](docker-compose.yml#L40).
 
 That's it. You just need to start up the container with the usual command:
 
