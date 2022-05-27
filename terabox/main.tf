@@ -14,7 +14,7 @@ resource "aws_vpc" "default" {
       cidr_block,
     ]
   }
-  cidr_block = "172.31.0.0/16"
+  cidr_block = "172.16.0.0/16"
 }
 resource "aws_internet_gateway" "default" {
   lifecycle {
@@ -39,7 +39,7 @@ resource "aws_subnet" "default" {
     ]
   }
   vpc_id                  = aws_vpc.default.id
-  cidr_block              = "172.31.198.0/24"
+  cidr_block              = "172.16.198.0/24"
   map_public_ip_on_launch = true
 }
 resource "aws_security_group" "default" {
@@ -59,19 +59,19 @@ resource "aws_security_group" "default" {
     from_port   = 9000
     to_port     = 9000
     protocol    = "tcp"
-    cidr_blocks = ["172.31.198.0/24","222.222.222.222/32"]
+    cidr_blocks = ["172.31.198.0/24","52.49.159.236/32"]
   }
   ingress {
     from_port   = 9945
     to_port     = 9945
     protocol    = "tcp"
-    cidr_blocks = ["172.31.198.0/24","222.222.222.222/32"]
+    cidr_blocks = ["172.31.198.0/24","52.49.159.236/32"]
   }
   ingress {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["172.31.198.0/24","222.222.222.222/32"]
+    cidr_blocks = ["172.31.198.0/24","52.49.159.236/32"]
   }
 
   # outbound internet access
