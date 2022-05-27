@@ -143,7 +143,7 @@ resource "aws_instance" "web" {
       "chmod +x /home/ubuntu/provisioner.sh",
       "export IP=$(dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | awk -F'\"' '{ print $2}'); sed -i \"s,tdexd,$IP,g\" /home/ubuntu/tdex-box/feederd/config.json",
       "export IP=$(dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | awk -F'\"' '{ print $2}'); sed -i \"s,ServerIPAddr,$IP,g\" /home/ubuntu/provisioner.sh",
-      "mkdir /home/ubuntu/tdex-box/tdexd/"
+      "mkdir /home/ubuntu/tdex-box/tdexd/",
       "sudo /home/ubuntu/provisioner.sh",
       "chmod +x /home/ubuntu/cronscript.sh",
       "sudo bash /home/ubuntu/cronscript.sh",
