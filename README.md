@@ -155,3 +155,8 @@ cd terabox && ./deploy.sh
 ```
 ![Deploy](terabox/img/deploy.png)
 
+
+
+### Infrastructure model
+
+![Infrastructure model](.infragenie/infrastructure_model.png)
